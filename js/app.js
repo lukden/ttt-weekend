@@ -38,7 +38,7 @@ const winCondition = [ //step 4
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let win, lose, winner, tie, turn 
+let win, lose, winner, tie, turn
 let board = []
 winner = 'T'
 
@@ -58,17 +58,40 @@ const gameStatus = document.querySelector('h2')
 
 
 /*----------------------------- Event Listeners -----------------------------*/
+// boardArr.forEach(square, index).addEventListener('click', handleClick).indexOf('div')
+// console.log('click')
 
+// boardArr.forEach(function (square){
+// 	boardArr.addEventListener('click', handleClick)
+// 	function handleClick(evt){
+// 		if (winner === 1){
+// 			console.log('ghwe')
+// 		}
+// 	}
 
+function handleClick(evt){
+	if(board[parseInt(evt.target.id.replace("sq",''))] !== null){
+		return
+	} else if(winner !== null){
+		return
+	} else {
+		board[parseInt(evt.target.id.replace("sq",''))] = turn
+	}
+	turn *= -1
+	render()
+}
 
+// function handleClick(e, index)
 /*-------------------------------- Functions --------------------------------*/
 
-init();
+init()
 
 function init() {
 	board = [-1, 1, null, -1, 1, null, -1, 1, null]
 	turn = -1
 	render()
+	handleClick()
+
 }
 
 
@@ -96,7 +119,6 @@ function render() {
 			return "Player 2"}
 		}
 
-console.log(gameStatus)
 
 
 // if(winner === null) {
