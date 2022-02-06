@@ -29,23 +29,20 @@ winner = 'T'
 // const square8= document.querySelector("#sq8")
 const boardArr = document.querySelectorAll('div')
 const gameStatus = document.querySelector('h2')
-const replayButton = document.getElementById('#replay')
+const replayButton = document.querySelector('button')
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-// boardArr.forEach(square, index).addEventListener('click', handleClick).indexOf('div')
-// console.log('click')
 
 boardArr.forEach(function (square){
 	square.addEventListener('click', handleClick)})
-// 	function handleClick(evt){
-// 		if (winner === 1){
-// 			console.log('ghwe')
-// 		}
-// 	}
 
-// document.replayButton.addEventListener('click', board)
-// function handleClick(e, index)
+	replayButton.addEventListener('click', function(){
+		window.location.reload();
+		return false;
+	})
+
+
 /*-------------------------------- Functions 
 --------------------------------*/
 
@@ -55,6 +52,7 @@ function init() {
 	turn = 1
 	render()
 	winner = null
+	gameStatus.textContent = "Make your first move!"
 }
 
 
@@ -69,13 +67,12 @@ function render() {
 			boardArr[index].textContent = null
 		} 
 	})
-
-	if(winner === null) {
-		gameStatus.textContent = `It's ${turn === 1 ? "Player 1's turn" : "Player 2's turn"}`
-	} else {
-	gameStatus.textContent = `${winner === playerName() ? "It's a tie!" : "Congrats! " + playerName() + " won!"}`
-	}
+	if(winner === null){
+		gameStatus.textContent = `It's ${turn === 1 ? "Player 1's turn!" : "Player 2's turn!"}`
+	} else {gameStatus.textContent = `${winner === 'T' ? "It's a tie!" : "Congrats! " + playerName() + " won!"}`
 }
+}
+
 	function playerName(){
 		let output;
 		if(turn === 1){
@@ -87,7 +84,6 @@ function render() {
 			}
 			return output
 		}
-
 
 		function handleClick(evt){
 			if(board[+(evt.target.id.replace("sq",''))] !== null){
@@ -101,7 +97,6 @@ function render() {
 			render()
 		}
 
-
 		function getWinner() {
 			winCondition.forEach(combo => {
 			if (Math.abs(board[combo[0]] + board[combo[1]] + board[combo[2]]) === 3){
@@ -113,12 +108,6 @@ function render() {
 		}
 
 
-		
-// if(winner === null) {
-// 	gameStatus.textContent = `It's ${turn === 1 ? "Player 1's turn" : "Player 2's turn"}`
-// } else {
-// gameStatus.textContent = `It's ${winner === 'tie' ? "It's a tie!" : "Congrats!" + playerName() + " won!"}`
-// }
 
 
 // 1) Define the required variables used to track the state of the game:
