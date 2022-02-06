@@ -1,47 +1,21 @@
 /*-------------------------------- Constants --------------------------------*/
 const winCondition = [ //step 4
 	//Player 1
-		[1,0,0,
-		0,1,0,
-		0,0,1],
-		[0,0,1,
-		0,1,0,
-		1,0,0],
-	
-		[0,1,0,
-		0,1,0,
-		0,1,0],
-	
-		[0,0,0,
-		1,1,1,
-		0,0,0],
-
-	//Player Two
-
-		[-1,0,0,
-		0,-1,0,
-		0,0,-1],
-		
-		[0,0,-1,
-		0,-1,0,
-		-1,0,0],
-		
-		[0,-1,0,
-		0,-1,0,
-		0,-1,0],
-		
-		[0,0,0,
-		-1,-1,-1,
-		0,0,0],
-	]
-
+	[0,1,2], 
+	[3,4,5],
+	[6,7,8],
+	[0,3,6],
+	[1,4,7],
+	[2,5,8],
+	[0,4,8],
+	[2,4,6]
+]
 
 /*---------------------------- Variables (state) ----------------------------*/
 
 let win, lose, winner, tie, turn
 let board = []
 winner = 'T'
-
 
 /*------------------------ Cached Element References ------------------------*/
 // const square0= document.querySelector("#sq0")
@@ -55,47 +29,37 @@ winner = 'T'
 // const square8= document.querySelector("#sq8")
 const boardArr = document.querySelectorAll('div')
 const gameStatus = document.querySelector('h2')
+const replayButton = document.getElementById('#replay')
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 // boardArr.forEach(square, index).addEventListener('click', handleClick).indexOf('div')
 // console.log('click')
 
-// boardArr.forEach(function (square){
-// 	boardArr.addEventListener('click', handleClick)
+boardArr.forEach(function (square){
+	square.addEventListener('click', handleClick)})
 // 	function handleClick(evt){
 // 		if (winner === 1){
 // 			console.log('ghwe')
 // 		}
 // 	}
 
-function handleClick(evt){
-	if(board[parseInt(evt.target.id.replace("sq",''))] !== null){
-		return
-	} else if(winner !== null){
-		return
-	} else {
-		board[parseInt(evt.target.id.replace("sq",''))] = turn
-	}
-	turn *= -1
-	render()
-}
-
+// document.replayButton.addEventListener('click', board)
 // function handleClick(e, index)
-/*-------------------------------- Functions --------------------------------*/
+/*-------------------------------- Functions 
+--------------------------------*/
 
 init()
-
 function init() {
-	board = [-1, 1, null, -1, 1, null, -1, 1, null]
-	turn = -1
+	board = [null, null, null, null, null, null, null, null, null]
+	turn = 1
 	render()
-	handleClick()
-
+	winner = null
 }
 
 
 function render() { 
+	getWinner();
 	board.forEach((square, index) => {
 		if(square === -1) {
 			boardArr[index].textContent = 'X'
@@ -104,23 +68,52 @@ function render() {
 		} else {
 			boardArr[index].textContent = null
 		} 
-		console.log((square, index))
 	})
 
 	if(winner === null) {
 		gameStatus.textContent = `It's ${turn === 1 ? "Player 1's turn" : "Player 2's turn"}`
-	} 
-	gameStatus.textContent = `It's ${winner === 'T' ? "It's a tie!" : "Congrats!" + playerName() + " won!"}`
+	} else {
+	gameStatus.textContent = `${winner === playerName() ? "It's a tie!" : "Congrats! " + playerName() + " won!"}`
 	}
+}
 	function playerName(){
+		let output;
 		if(turn === 1){
-			return "Player 1"
+			output = "Player 2"
 		} else if (turn === -1){
-			return "Player 2"}
+			output = "Player 1"}
+			else {
+				output = "Error in func playerName()"
+			}
+			return output
 		}
 
 
+		function handleClick(evt){
+			if(board[+(evt.target.id.replace("sq",''))] !== null){
+				return
+			} else if(winner !== null){
+				return
+			} else {
+				board[+(evt.target.id.replace("sq",''))] = turn
+			}
+			turn *= -1
+			render()
+		}
 
+
+		function getWinner() {
+			winCondition.forEach(combo => {
+			if (Math.abs(board[combo[0]] + board[combo[1]] + board[combo[2]]) === 3){
+				winner = turn}
+				else if(!board.includes(null)){
+					winner = 'T'
+				}	
+			})
+		}
+
+
+		
 // if(winner === null) {
 // 	gameStatus.textContent = `It's ${turn === 1 ? "Player 1's turn" : "Player 2's turn"}`
 // } else {
