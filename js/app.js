@@ -8,14 +8,13 @@ const winCondition = [ //step 4
 	[1,4,7],
 	[2,5,8],
 	[0,4,8],
-	[2,4,6]
+	[2,4,6],
 ]
 
 /*---------------------------- Variables (state) ----------------------------*/
 
 let win, lose, winner, tie, turn
 let board = []
-winner = 'T'
 
 /*------------------------ Cached Element References ------------------------*/
 // const square0= document.querySelector("#sq0")
@@ -46,7 +45,7 @@ boardArr.forEach(function (square){
 /*-------------------------------- Functions 
 --------------------------------*/
 
-init()
+init();
 function init() {
 	board = [null, null, null, null, null, null, null, null, null]
 	turn = 1
@@ -59,19 +58,20 @@ function init() {
 function render() { 
 	getWinner();
 	board.forEach((square, index) => {
-		if(square === -1) {
+		if(square === 1) {
 			boardArr[index].textContent = 'X'
-		} else if (square === 1) {
+		} else if (square === -1) {
 			boardArr[index].textContent = 'O'
 		} else {
 			boardArr[index].textContent = null
 		} 
 	})
-	if(winner === null){
+if(winner === null){
 		gameStatus.textContent = `It's ${turn === 1 ? "Player 1's turn!" : "Player 2's turn!"}`
 	} else {gameStatus.textContent = `${winner === 'T' ? "It's a tie!" : "Congrats! " + playerName() + " won!"}`
 }
 }
+
 
 	function playerName(){
 		let output;
@@ -100,12 +100,15 @@ function render() {
 		function getWinner() {
 			winCondition.forEach(combo => {
 			if (Math.abs(board[combo[0]] + board[combo[1]] + board[combo[2]]) === 3){
-				winner = turn}
+				winner = turn
+			}
 				else if(!board.includes(null)){
 					winner = 'T'
 				}	
 			})
 		}
+
+
 
 
 
