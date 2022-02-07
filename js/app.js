@@ -29,7 +29,7 @@ let board = []
 const boardArr = document.querySelectorAll('div')
 const gameStatus = document.querySelector('h2')
 const replayButton = document.querySelector('button')
-
+const confettiElement = document.getElementById('my-canvas');
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -38,6 +38,9 @@ boardArr.forEach(function (square){
 
 	replayButton.addEventListener('click', function(){
 		window.location.reload();
+		const confettiSettings = { target: 'replay' };
+const confetti = new ConfettiGenerator(confettiSettings);
+		confetti.render();
 		return false;
 	})
 
@@ -49,7 +52,7 @@ init();
 function init() {
 	board = [null, null, null, null, null, null, null, null, null]
 	turn = 1
-	render()
+	render();
 	winner = null
 	gameStatus.textContent = "Make your first move!"
 }
@@ -99,13 +102,11 @@ if(winner === null){
 
 		function getWinner() {
 			winCondition.forEach(combo => {
-			if (Math.abs(board[combo[0]] + board[combo[1]] + board[combo[2]]) === 3){
-				winner = turn
-			}
-				else if(!board.includes(null)){
-					winner = 'T'
-				}	
+				if (Math.abs(board[combo[0]] + board[combo[1]] + board[combo[2]]) === 3){
+					winner = turn
+				}
 			})
+			if(!board.includes(null) && winner === null) return winner = 'T'
 		}
 
 
